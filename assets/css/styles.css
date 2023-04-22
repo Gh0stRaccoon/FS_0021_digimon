@@ -1,0 +1,223 @@
+:root {
+	--digiBlue: #564be9;
+	--digiYellow: #f4cd3f;
+	--digiDarkYellow: #c9a936;
+	--dark: #3f3f3f;
+	--light: #f3f3f3;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color: var(--dark);
+}
+main {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+dialog {
+	margin: auto;
+	padding: 1rem;
+	border: none;
+	background-image: linear-gradient(
+		25deg,
+		var(--digiBlue) 35%,
+		var(--digiDarkYellow),
+		var(--digiBlue) 75%
+	);
+	width: 90%;
+	position: fixed;
+	border-radius: 0.5rem;
+}
+
+.dialog-container {
+	background-color: var(--light);
+	border-radius: 0.5rem;
+	display: grid;
+	grid-template-columns: auto 1fr;
+  place-items: center;
+	gap: 1rem;
+	overflow: hidden;
+  padding: .5rem 1rem;
+}
+
+.dialog-container > img {
+	width: 300px;
+	aspect-ratio: 1/1;
+	border-radius: 0.5rem;
+}
+
+.digimon-level {
+	display: inline-block;
+	background: var(--digiYellow);
+	padding: 0 0.5rem;
+	border-radius: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.digimon-fields {
+	display: grid;
+	gap: 0.5rem;
+	grid-template-columns: repeat(auto-fill, 32px);
+	margin-bottom: 0.5rem;
+}
+
+.digimon-description {
+  padding-bottom: 1rem;
+}
+
+dialog button {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	width: 24px;
+	height: 24px;
+	border-radius: 100%;
+	background-color: var(--light);
+	color: var(--dark);
+	border: none;
+	font-weight: bold;
+	font-size: large;
+	border: 1px solid var(--dark);
+}
+
+body > header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	height: 5rem;
+	background-color: #f4cd3f;
+}
+
+nav ul {
+	display: flex;
+	list-style: none;
+	gap: 1rem;
+}
+
+body > header a {
+	text-decoration: none;
+	color: var(--dark);
+	font-weight: bold;
+}
+
+body > header a:hover:not(.logo) {
+	text-decoration: underline;
+}
+
+.logo {
+	color: var(--light);
+	font-weight: bold;
+	font-size: 24px;
+	text-transform: uppercase;
+	color: var(--light);
+	border: 1px solid var(--digiDarkYellow);
+	background-image: linear-gradient(
+		25deg,
+		var(--digiBlue) 35%,
+		rgb(128, 120, 238) 50%,
+		var(--digiBlue) 75%
+	);
+	padding: 0 0.5rem;
+	border-radius: 0.5rem;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.logo span {
+	color: var(--digiYellow);
+}
+
+main h1 {
+	margin: 1rem 0;
+}
+
+.digimon-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1.5rem;
+}
+
+.digimon-card {
+	background: #564be9;
+	position: relative;
+	min-height: 250px;
+	border-radius: 0.5rem;
+	padding: 0.5rem;
+	/* overflow: hidden; */
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.digimon-card.loading {
+	animation: blink 0.5s infinite alternate;
+}
+
+.digimon-card header h2 {
+	color: var(--light);
+}
+
+.digimon-card span {
+	display: inline-block;
+	background-color: #f4cd3f;
+	padding: 0.5rem;
+	border-radius: 2rem;
+	font-size: 0.75rem;
+	font-weight: bold;
+	margin-top: 0.5rem;
+}
+
+.digimon-card.loading ::after {
+	display: grid;
+	place-content: center;
+	content: 'Loading...';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	inset: 0 0;
+	background-color: var(--digiBlue);
+	font-size: 1.5rem;
+	color: var(--light);
+}
+
+.digimon-card .digimon-img {
+	width: 100%;
+	border-radius: 0.5rem;
+	aspect-ratio: 1/1;
+}
+
+@media (max-width: 1200px) {
+	main {
+		padding: 1rem;
+	}
+
+	dialog {
+		margin: auto;
+		padding: 1rem;
+		position: fixed;
+		border: none;
+		background-image: linear-gradient(
+			25deg,
+			var(--digiBlue) 35%,
+			var(--digiDarkYellow),
+			var(--digiBlue) 75%
+		);
+		width: 90%;
+		height: 70vh;
+	}
+}
+
+@keyframes blink {
+	from {
+		opacity: 0.5;
+	}
+	to {
+		opacity: 1;
+	}
+}
