@@ -26,6 +26,10 @@ const showIndividual = async (e) => {
 	console.log(digimonInfo);
 
 	const dialog = document.createElement('dialog');
+	dialog.addEventListener('keydown', (e) => {
+		e.preventDefault();
+		e.code === 'Escape' && dialog.remove();
+	});
 
 	const closeBtn = document.createElement('button');
 	closeBtn.textContent = 'x';
