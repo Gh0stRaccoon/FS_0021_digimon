@@ -32,7 +32,6 @@ dialog {
 		var(--digiDarkYellow),
 		var(--digiBlue) 75%
 	);
-	width: 90%;
 	position: fixed;
 	border-radius: 0.5rem;
 }
@@ -41,7 +40,6 @@ dialog {
 	background-color: var(--light);
 	border-radius: 0.5rem;
 	display: grid;
-	grid-template-columns: auto 1fr;
 	place-items: center;
 	gap: 1rem;
 	overflow: hidden;
@@ -141,11 +139,26 @@ body > header a:hover:not(.logo) {
 
 main h1 {
 	margin: 1rem 0;
+	text-align: center;
+}
+
+.search{
+	display: grid;
+	margin-bottom: 1rem;
+}
+
+input[type="text"] {
+	height: 3rem;
+	font-size: large;
+	border: 1px solid var(--digiBlue);
+	background-color: var(--light);
+	padding: 0 0.5rem;
+	border-radius: .5rem;
 }
 
 .digimon-list {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(200px, 250px));
 	gap: 1.5rem;
 }
 
@@ -213,27 +226,6 @@ main h1 {
 
 	main {
 		padding: 1rem;
-	}
-
-	dialog {
-		margin: auto;
-		padding: 1rem;
-		position: fixed;
-		border: none;
-		background-image: linear-gradient(
-			25deg,
-			var(--digiBlue) 35%,
-			var(--digiDarkYellow),
-			var(--digiBlue) 75%
-		);
-		width: 90%;
-		max-height: 70vh;
-	}
-
-	.dialog-container {
-		grid-template-columns: auto;
-		height: 600px;
-		overflow-y: auto;
 	}
 
 	.dialog-container > img {

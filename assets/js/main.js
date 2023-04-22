@@ -1,9 +1,37 @@
+let allDigimons = [];
+let matchDigimons = [];
+let timer;
+
+const handleSearch = (event) => {
+	event.preventDefault();
+
+	clearTimeout(timer);
+
+	timer = setTimeout(() => {
+		if (event.target.value === '') {
+			drawDigimons(allDigimons);
+			return;
+		}
+
+		matchDigimons = allDigimons.filter((digimon) =>
+			digimon.name.toLowerCase().includes(event.target.value.toLowerCase())
+		);
+
+		drawDigimons(matchDigimons);
+	}, 500);
+};
+
+const search = document.getElementById('search');
+search.addEventListener('input', handleSearch);
+search.addEventListener('submit', handleSearch);
+
 const getDigimons = async () => {
 	try {
 		const digimons = await fetch(
-			'https://www.digi-api.com/api/v1/digimon?pageSize=20'
+			'https://digimon-api.vercel.app/api/digimon'
 		).then((res) => res.json());
-		drawDigimons(digimons.content);
+		allDigimons = digimons;
+		drawDigimons(allDigimons);
 	} catch (error) {
 		console.error(error);
 	}
@@ -12,9 +40,9 @@ const getDigimons = async () => {
 const getDigimon = async (digimonName) => {
 	try {
 		const digimon = await fetch(
-			`https://www.digi-api.com/api/v1/digimon/${digimonName}`
+			`https://digimon-api.vercel.app/api/digimon/name/${digimonName}`
 		).then((res) => res.json());
-		return digimon;
+		return digimon[0];
 	} catch (error) {
 		console.error(error);
 	}
@@ -23,7 +51,6 @@ const getDigimon = async (digimonName) => {
 const showIndividual = async (e) => {
 	const digimonName = e.currentTarget.dataset.digimonName;
 	const digimonInfo = await getDigimon(digimonName);
-	console.log(digimonInfo);
 
 	const dialog = document.createElement('dialog');
 	dialog.addEventListener('keydown', (e) => {
@@ -35,32 +62,14 @@ const showIndividual = async (e) => {
 	closeBtn.textContent = 'x';
 	closeBtn.addEventListener('click', () => dialog.remove());
 
-	const digimonImage = document.createElement('img');
-	digimonImage.src = digimonInfo.images[0]?.href;
-
 	dialog.innerHTML += `
   <div class="dialog-container">
-  <img src="${digimonInfo.images[0]?.href}" alt="${digimonInfo.name}"/>
-  <div class="dialog-digimon-info">
-  <h2>${digimonInfo.name}</h2>
-  ${digimonInfo.levels
-		.map((level) => `<span class="digimon-level">${level.level}</span>`)
-		.join('')}
-    <div class="digimon-fields">
-    ${digimonInfo.fields
-			.map(
-				(field) =>
-					`<img src="https://digimon-api.com/images/etc/fields/${field.field}.png" />`
-			)
-			.join('')}
-      </div>
-      <p class="digimon-description">${
-				digimonInfo.descriptions?.find(
-					(description) => description.language === 'en_us'
-				)?.description || ''
-			}</p>
-        </div>
-        </div>
+  	<img src="${digimonInfo.img}" alt="${digimonInfo.name}"/>
+  	<div class="dialog-digimon-info">
+  		<h2>${digimonInfo.name}</h2>
+			<span class="digimon-level">${digimonInfo.level}</span>
+		</div>
+	</div>
         `;
 
 	dialog.appendChild(closeBtn);
@@ -70,6 +79,13 @@ const showIndividual = async (e) => {
 
 const drawDigimons = (digimons) => {
 	const digimonList = document.getElementById('digimon-list');
+	digimonList.innerHTML = '';
+
+	if (!digimons.length) {
+		digimonList.innerHTML =
+			'<h2 style="grid-area: none">No hay digimons que coincidan...</h2>';
+		return;
+	}
 
 	const imageLoaded = (digimonCard) => {
 		digimonCard.classList.remove('loading');
@@ -87,7 +103,7 @@ const drawDigimons = (digimons) => {
 		const cardImage = document.createElement('img');
 		cardImage.addEventListener('load', () => imageLoaded(digimonCard));
 		cardImage.classList.add('digimon-img');
-		cardImage.setAttribute('src', digimon.image);
+		cardImage.setAttribute('src', digimon.img);
 		cardImage.setAttribute('alt', digimon.name);
 
 		const cardTitle = document.createElement('h2');
