@@ -1,6 +1,6 @@
 let allDigimons = [];
-let matchDigimons = [];
 let timer;
+let matchDigimons = [];
 
 const handleSearch = (event) => {
 	event.preventDefault();
